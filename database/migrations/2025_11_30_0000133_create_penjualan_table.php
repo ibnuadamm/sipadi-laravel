@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('penjualan', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('persediaan_id')->constrained('persediaan')->cascadeOnDelete();
+    $table->integer('qty')->default(0);
+    $table->integer('harga_satuan')->default(0);
+    $table->integer('subtotal')->default(0);
+    $table->string('keterangan')->nullable(); // Tambahkan kolom keterangan
+    $table->date('tanggal');
+    $table->timestamps();
+});
+
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('penjualan');
+    }
+};

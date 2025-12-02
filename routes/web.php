@@ -10,30 +10,44 @@ use App\Http\Controllers\BebanController;
 use App\Http\Controllers\LaporanLabaRugiController;
 use App\Http\Controllers\LaporanBiayaProduksiController;
 use App\Http\Controllers\PrediksiHargaController;
+use App\Http\Controllers\Auth\LoginController;
 
-Route::get('/prediksi-harga', [PrediksiHargaController::class, 'index'])->name('prediksi.index');
-Route::post('/prediksi-harga', [PrediksiHargaController::class, 'predict'])->name('prediksi.predict');
-
-Route::get('/laporan/biaya-produksi', [LaporanBiayaProduksiController::class, 'index'])
-    ->name('laporan.biaya_produksi');
-
-Route::get('/laporan/laba_rugi', [LaporanLabaRugiController::class, 'index'])->name('laporan.laba_rugi');
+// Login Routes
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-// Beban
-Route::resource('beban', BebanController::class);
+// ====== ROUTE YANG HANYA BISA DIAKSES SETELAH LOGIN ======
 
-// pemantauan
-Route::resource('pemantauan', PemantauanController::class);
+Route::middleware('auth')->group(function () {
 
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Persediaan
-Route::resource('persediaan', PersediaanController::class);
+    // Prediksi Harga
+    Route::get('/prediksi-harga', [PrediksiHargaController::class, 'index'])->name('prediksi.index');
+    Route::post('/prediksi-harga', [PrediksiHargaController::class, 'predict'])->name('prediksi.predict');
 
-// Pembelian
-Route::resource('pembelian', PembelianController::class);
+    // Laporan
+    Route::get('/laporan/biaya-produksi', [LaporanBiayaProduksiController::class, 'index'])
+        ->name('laporan.biaya_produksi');
 
-// Penjualan
-Route::resource('penjualan', PenjualanController::class);
+    Route::get('/laporan/laba_rugi', [LaporanLabaRugiController::class, 'index'])
+        ->name('laporan.laba_rugi');
+
+    // Beban
+    Route::resource('beban', BebanController::class);
+
+    // Pemantauan
+    Route::resource('pemantauan', PemantauanController::class);
+
+    // Persediaan
+    Route::resource('persediaan', PersediaanController::class);
+
+    // Pembelian
+    Route::resource('pembelian', PembelianController::class);
+
+    // Penjualan
+    Route::resource('penjualan', PenjualanController::class);
+});

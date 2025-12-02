@@ -1,7 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Dashboard</h1>
+<h1 style="display:flex; justify-content:space-between; align-items:center;">
+    Dashboard
+
+    <!-- Tombol Logout -->
+    <form action="{{ route('logout') }}" method="POST" style="margin:0;">
+        @csrf
+        <button 
+            style="padding:8px 16px; background-color:#e53935; color:white; border:none; cursor:pointer; border-radius:4px;">
+            Logout
+        </button>
+    </form>
+</h1>
 
 <!-- Tombol Navigasi -->
 <div style="margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap;">
@@ -48,7 +59,6 @@
         </button>
     </a>
 
-    <!-- Tombol Prediksi Harga Jual AI -->
     <a href="{{ route('prediksi.index') }}">
         <button style="padding:10px 20px; background-color:#009688; color:white; border:none; cursor:pointer;">
             Prediksi Harga Jual AI

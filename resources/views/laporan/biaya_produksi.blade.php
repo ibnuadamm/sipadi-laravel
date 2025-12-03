@@ -68,7 +68,7 @@
 <!-- ===================== -->
 <!-- DETAIL BEBAN PRODUKSI -->
 <!-- ===================== -->
-<h2>Beban Produksi</h2>
+<h2>Beban Operasional</h2>
 
 <table border="1" cellpadding="10" style="margin-bottom:20px; width:100%;">
     <tr>

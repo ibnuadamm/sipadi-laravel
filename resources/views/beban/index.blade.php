@@ -62,7 +62,6 @@
         <th>Tanggal</th>
         <th>Nama Beban</th>
         <th>Nominal</th>
-        <th>Aksi</th>
     </tr>
 
     @foreach($beban as $item)
@@ -71,13 +70,8 @@
         <td>{{ $item->tanggal->format('d-m-Y') }}</td>
         <td>{{ $item->nama_beban }}</td>
         <td>{{ 'Rp ' . number_format($item->nominal, 0, ',', '.') }}</td>
-        <td>
-            <a href="{{ route('beban.edit', $item->id) }}">Edit</a>
-
-            <form action="{{ route('beban.destroy', $item->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button onclick="return confirm('Yakin ingin hapus?')" type="submit">Hapus</button>
+        
+           
             </form>
         </td>
     </tr>

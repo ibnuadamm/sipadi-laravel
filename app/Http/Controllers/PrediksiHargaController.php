@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\HargaPasar;
 use GuzzleHttp\Client;
-use Carbon\Carbon;
 
 class PrediksiHargaController extends Controller
 {
@@ -19,43 +17,54 @@ class PrediksiHargaController extends Controller
         $lokasi = $request->lokasi;
         $produk = $request->produk;
 
-        // Ambil data harga dari API eksternal
         $client = new Client();
-        $tanggal = Carbon::now()->toDateString();
+        $apiKey = env('GEMINI_API_KEY');
+
+        $prompt = "
+            Kamu adalah analis harga pertanian di Indonesia.
+
+            Cari estimasi harga pasar terbaru untuk:
+            - Produk: $produk
+            - Lokasi: $lokasi
+
+            Tampilkan hasil dalam format:
+
+            ==========================================
+            INFORMASI PASAR & PREDIKSI
+            Produk : $produk
+            Lokasi : $lokasi
+            ==========================================
+
+            1. Harga pasar rata-rata saat ini (Rp)
+            2. Rentang harga umum (Rp)
+            3. Rekomendasi harga jual terbaik (Rp)
+            4. Analisis singkat (3 poin)
+        ";
 
         try {
-            $response = $client->request('GET', 'https://api-harga-pertanian-lokal.com/harga', [
-    'query' => ['lokasi' => $lokasi, 'produk' => $produk]
-]);
+            $url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=$apiKey";
 
-
-            $data = json_decode($response->getBody(), true);
-
-            if(empty($data)) {
-                return back()->with('error', 'Data harga pasar tidak tersedia.');
-            }
-
-            // Simpan data harga ke database (optional)
-            foreach($data as $item){
-                HargaPasar::updateOrCreate(
-                    [
-                        'lokasi' => $lokasi,
-                        'produk' => $produk,
-                        'tanggal' => $tanggal
-                    ],
-                    [
-                        'harga' => $item['harga']
+            $response = $client->post($url, [
+                'json' => [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                ['text' => $prompt]
+                            ]
+                        ]
                     ]
-                );
-            }
+                ]
+            ]);
 
-            // Prediksi sederhana: rata-rata harga terbaru
-            $hargaPrediksi = collect($data)->avg('harga');
+            $result = json_decode($response->getBody(), true);
 
-            return view('prediksi.index', compact('hargaPrediksi', 'lokasi', 'produk'));
+            $hasil = $result['candidates'][0]['content']['parts'][0]['text']
+                ?? 'Tidak ada hasil prediksi dari AI.';
+
+            return view('prediksi.index', compact('hasil', 'lokasi', 'produk'));
 
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal mengambil data harga: '.$e->getMessage());
+            return back()->with('error', 'Gagal mengambil prediksi: ' . $e->getMessage());
         }
     }
 }

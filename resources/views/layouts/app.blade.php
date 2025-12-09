@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h1>My Application</h1>
+    <!-- <h1>My Application</h1> -->
     @yield('content')
 </body>
 </html>

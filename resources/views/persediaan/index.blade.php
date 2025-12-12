@@ -502,7 +502,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Kategori</th>
                     <th>Nama Barang</th>
                     <th>Stok Awal</th>
@@ -514,7 +513,6 @@
             <tbody>
                 @foreach($persediaan as $item)
                 <tr>
-                    <td>{{ $item->id }}</td>
                     <td>{{ $item->kategori }}</td>
                     <td>{{ $item->nama_barang }}</td>
                     <td>{{ $item->stok_awal }}</td>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id"
 
 <head>
     <meta charset="UTF-8">
@@ -17,8 +17,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #1a9b7e 0%, #0d6b56 100%);
             min-height: 100vh;
-            overflow: hidden;
-            display: flex;
+            ooverflow: hidden;            display: flex;
             align-items: center;
             justify-content: center;
         }
@@ -349,4 +348,15 @@
 
 </body>
 
+</html>      </div>
+    </div>
+</div>
+
+</body>
+</html>
+    </div>
+    </div>
+</div>
+
+</body>
 </html>

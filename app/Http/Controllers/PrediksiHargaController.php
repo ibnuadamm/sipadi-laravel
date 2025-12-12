@@ -39,6 +39,8 @@ class PrediksiHargaController extends Controller
             2. Rentang harga umum (Rp)
             3. Rekomendasi harga jual terbaik (Rp)
             4. Analisis singkat (3 poin)
+
+            Tulisan nya jangan ada yang di bold.
         ";
 
         try {

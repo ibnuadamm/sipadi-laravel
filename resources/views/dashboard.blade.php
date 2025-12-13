@@ -300,7 +300,6 @@
             <th>Stok Awal</th>
             <th>Masuk</th>
             <th>Keluar</th>
-            <th>Stok Berjalan</th>
         </tr>
 
         @foreach($stokPersediaan as $item)
@@ -309,7 +308,7 @@
             <td>{{ $item->stok_awal }}</td>
             <td>{{ $item->pembelians->sum('qty') }}</td>
             <td>{{ $item->penjualans->sum('qty') }}</td>
-            <td>{{ $item->stok_awal + $item->pembelians->sum('qty') - $item->penjualans->sum('qty') }}</td>
+
         </tr>
         @endforeach
     </table>
